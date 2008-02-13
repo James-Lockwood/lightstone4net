@@ -1,0 +1,94 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{17466444-DF91-4F2B-ACCF-5A1AADF5BE46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LightStone4net.WinUI</RootNamespace>
+    <AssemblyName>LightStone4net.WinUI</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NPlot, Version=0.9.10.0, Culture=neutral, PublicKeyToken=4eda430eb4395eb1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\NPlot\NPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="BeatsPerMinuteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BeatsPerMinuteControl.Designer.cs">
+      <DependentUpon>BeatsPerMinuteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HeartSignalControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HeartSignalControl.Designer.cs">
+      <DependentUpon>HeartSignalControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreadSafeControls\Delegates.cs" />
+    <Compile Include="ThreadSafeControls\SafeLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ThreadSafeControls\SafeTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BeatsPerMinuteControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BeatsPerMinuteControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HeartSignalControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HeartSignalControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LightStone4net.Core\LightStone4net.Core.csproj">
+      <Project>{CFF621E1-1FF0-4194-A048-53B2C5D3B2C6}</Project>
+      <Name>LightStone4net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UsbLib\UsbLib.csproj">
+      <Project>{EF317BAE-DF96-4009-8546-6EF0F10BFE1C}</Project>
+      <Name>UsbLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

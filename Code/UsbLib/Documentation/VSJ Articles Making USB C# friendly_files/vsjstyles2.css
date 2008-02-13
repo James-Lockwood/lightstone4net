@@ -1,0 +1,130 @@
+body, p, td, dl, ul, ol, li {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	}
+
+listing, pre, tt, xmp, code {
+	font-family: Courier New, Courier, monospace;
+	font-size: 11px;
+	}
+
+kbd {
+	font-family: Courier New, Courier, monospace;
+	font-weight: bold;
+	font-size: 11px;
+	}
+
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	}
+
+h2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 17px;
+	}
+
+h3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	}
+
+h4 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	}
+
+h5 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	}
+
+h6 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	}
+
+dt {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	}
+
+dd {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	}
+
+small {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	}
+
+big {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	}
+
+a {
+	color: #cc0000;
+	font-weight: bold;
+	}
+
+a:visited {
+	color: #660000;
+	}
+
+a:hover, a:visited:hover {
+	color: #0000cc;
+	}
+
+.pagehead{
+	font-family: Georgia, Times New Roman, Times, serif;
+	color: #660000;
+	font-size: 28px;
+	}
+
+.footer {
+	font-size: 9px;
+	color: #999999;
+	}
+
+a.footer, a.footer:visited {
+	color: #999999;
+	}
+
+a.footer:hover, a.footer:visited:hover {
+	color: #000000;
+	}
+
+.forumweak, a.forumweak, a.forumweak:visited {
+	font-size: 9px;
+	color: #666699;
+	}
+
+a.forumweak:hover, a.forumweak:visited:hover {
+	color: #333366;
+	}
+
+.forummenu, a.forummenu, a.forummenu:visited {
+	font-size: 9px;
+	color: #ffffff;
+	text-decoration: none;
+	}
+
+a.forummenu:hover, a.forummenu:visited:hover {
+	color: #ffff00;
+	text-decoration: underline;
+	}
+
+.forumbaseweak, a.forumbaseweak, a.forumbaseweak:visited {
+	font-size: 9px;
+	color: #999999;
+	text-decoration: none;
+	}
+
+a.forumbaseweak:hover, a.forumbaseweak:visited:hover {
+	color: #000000;
+	text-decoration: underline;
+	}
+

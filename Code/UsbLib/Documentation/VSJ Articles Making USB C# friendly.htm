@@ -1,0 +1,648 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>VSJ | Articles | Making USB C# friendly</title>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/vsjstyles2.css">
+<meta name="keywords" content="vsj, visual systems journal, programming, coding, program, code, source, independent, windows, .net, java, javascript, visual basic, vb, vbscript, c++, visual c++, developer, software, uk, magazine, bearpark">
+<meta name="description" content="VSJ Magazine - The Independent Source for Software Developers.">
+<meta name="author" content="www.homepage.co.uk">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<script language="JavaScript">
+<!--
+if (document.images) {
+
+var hombright = new Image();
+hombright.src = "/pix/nav2004/hombright.gif";
+var homdull = new Image();
+homdull.src = "/pix/nav2004/homdull.gif";
+
+var subbright = new Image();
+subbright.src = "/pix/nav2004/subbright.gif";
+var subdull = new Image();
+subdull.src = "/pix/nav2004/subdull.gif";
+
+var emabright = new Image();
+emabright.src = "/pix/nav2004/emabright.gif";
+var emadull = new Image();
+emadull.src = "/pix/nav2004/emadull.gif";
+
+var netbright = new Image();
+netbright.src = "/pix/nav2004/netbright.gif";
+var netdull = new Image();
+netdull.src = "/pix/nav2004/netdull.gif";
+
+var javbright = new Image();
+javbright.src = "/pix/nav2004/javbright.gif";
+var javdull = new Image();
+javdull.src = "/pix/nav2004/javdull.gif";
+
+var xmlbright = new Image();
+xmlbright.src = "/pix/nav2004/xmlbright.gif";
+var xmldull = new Image();
+xmldull.src = "/pix/nav2004/xmldull.gif";
+
+var dbdbright = new Image();
+dbdbright.src = "/pix/nav2004/dbdbright.gif";
+var dbddull = new Image();
+dbddull.src = "/pix/nav2004/dbddull.gif";
+
+var arcbright = new Image();
+arcbright.src = "/pix/nav2004/arcbright.gif";
+var arcdull = new Image();
+arcdull.src = "/pix/nav2004/arcdull.gif";
+
+var nwsbright = new Image();
+nwsbright.src = "/pix/nav2004/nwsbright.gif";
+var nwsdull = new Image();
+nwsdull.src = "/pix/nav2004/nwsdull.gif";
+
+var artbright = new Image();
+artbright.src = "/pix/nav2004/artbright.gif";
+var artdull = new Image();
+artdull.src = "/pix/nav2004/artdull.gif";
+
+var dowbright = new Image();
+dowbright.src = "/pix/nav2004/dowbright.gif";
+var dowdull = new Image();
+dowdull.src = "/pix/nav2004/dowdull.gif";
+
+var trabright = new Image();
+trabright.src = "/pix/nav2004/trabright.gif";
+var tradull = new Image();
+tradull.src = "/pix/nav2004/tradull.gif";
+
+var boobright = new Image();
+boobright.src = "/pix/nav2004/boobright.gif";
+var boodull = new Image();
+boodull.src = "/pix/nav2004/boodull.gif";
+
+var iapbright = new Image();
+iapbright.src = "/pix/nav2004/iapbright.gif";
+var iapdull = new Image();
+iapdull.src = "/pix/nav2004/iapdull.gif";
+
+var codbright = new Image();
+codbright.src = "/pix/nav2004/codbright.gif";
+var coddull = new Image();
+coddull.src = "/pix/nav2004/coddull.gif";
+
+var przbright = new Image();
+przbright.src = "/pix/nav2004/przbright.gif";
+var przdull = new Image();
+przdull.src = "/pix/nav2004/przdull.gif";
+
+var sawbright = new Image();
+sawbright.src = "/pix/nav2004/sawbright.gif";
+var sawdull = new Image();
+sawdull.src = "/pix/nav2004/sawdull.gif";
+
+var dwkbright = new Image();
+dwkbright.src = "/pix/nav2004/dwkbright.gif";
+var dwkdull = new Image();
+dwkdull.src = "/pix/nav2004/dwkdull.gif";
+
+var abobright = new Image();
+abobright.src = "/pix/nav2004/abobright.gif";
+var abodull = new Image();
+abodull.src = "/pix/nav2004/abodull.gif";
+
+var advbright = new Image();
+advbright.src = "/pix/nav2004/advbright.gif";
+var advdull = new Image();
+advdull.src = "/pix/nav2004/advdull.gif";
+
+var cntbright = new Image();
+cntbright.src = "/pix/nav2004/cntbright.gif";
+var cntdull = new Image();
+cntdull.src = "/pix/nav2004/cntdull.gif";
+
+}
+
+function shine(imageName) {
+if (document.images) {
+document[imageName].src = eval(imageName + 'bright.src');
+}
+}
+
+function shade(imageName) {
+if (document.images) {
+document[imageName].src = eval(imageName + 'dull.src');
+}
+}
+// -->
+</script></head><body topmargin="0" leftmargin="0" alink="#0000cc" bgcolor="#ffffff" link="#cc0000" marginheight="0" marginwidth="0" text="#000000" vlink="#660000">
+
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td width="100%"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr valign="center">
+<td bgcolor="#000000" width="153"><a href="http://www.vsj.co.uk/"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/cornerlogo.gif" alt="VSJ" border="0" height="80" width="221"></a></td>
+<td colspan="2" bgcolor="#000000" width="100%"><div style="margin-left: 41px;"><table border="0" cellpadding="0" cellspacing="0" width="468"><tbody><tr>
+
+			<td width="468"><a href="http://www.vsj.co.uk/go.asp?ad=17&amp;section=art&amp;url=http://www.hypertracker.com/go/Bearpark/VSJbannerIntersystDec06ensemble/" target="_blank"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/AD228_468x60_v1.gif" alt="InterSystems free case studies. Click for details." border="0" height="60" width="468"></a></td>
+			
+</tr></tbody></table></div></td>
+<td width="7"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/upperright2.gif" height="80" width="7"></td>
+</tr>
+</tbody></table></td>
+</tr>
+<tr>
+<td width="100%"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr valign="top">
+<td width="159"><table border="0" cellpadding="0" cellspacing="0" width="159">
+<tbody><tr>
+<td colspan="2" width="159"><a href="http://www.vsj.co.uk/"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/logobottomleft.gif" alt="The independent source for software developers" border="0" height="75" width="159"></a></td>
+</tr>
+<tr>
+<td colspan="2" style="background-image: url(/pix/searchbase.gif); background-repeat: repeat-y; background-color: rgb(145, 16, 16);" width="159">
+<form action="/search.asp" method="post" style="margin: 0px;">
+<div style="margin-left: 15px;"><input name="s" size="10" style="width: 123px;" type="text"></div>
+<div style="margin: 4px 15px 8px;"><input src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/searchsite.gif" alt="Search this site" border="0" height="17" type="image" width="89"></div>
+</form>
+</td>
+</tr>
+
+
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/" onmouseover="shine('hom')" onmouseout="shade('hom')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/homdull.gif" name="hom" alt="Home" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/subscriptions/" onmouseover="shine('sub')" onmouseout="shade('sub')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/subdull.gif" name="sub" alt="Free Subscription" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/newswire/" onmouseover="shine('ema')" onmouseout="shade('ema')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/emadull.gif" name="ema" alt="Email Newswire" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/dotnet/" onmouseover="shine('net')" onmouseout="shade('net')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/netdull.gif" name="net" alt=".NET Zone" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/java/" onmouseover="shine('jav')" onmouseout="shade('jav')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/javdull.gif" name="jav" alt="Java Zone" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/xml/" onmouseover="shine('xml')" onmouseout="shade('xml')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/xmldull.gif" name="xml" alt="XML &amp; Web Services Zone" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/databases/" onmouseover="shine('dbd')" onmouseout="shade('dbd')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/dbddull.gif" name="dbd" alt="Database Development Zone" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.itarchitect.co.uk/" onmouseover="shine('arc')" onmouseout="shade('arc')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/arcdull.gif" name="arc" alt="Architecture Zone" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/news/" onmouseover="shine('nws')" onmouseout="shade('nws')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/nwsdull.gif" name="nws" alt="News" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/articles/"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/artbright.gif" name="art" alt="Articles" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/downloads/" onmouseover="shine('dow')" onmouseout="shade('dow')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/dowdull.gif" name="dow" alt="Free Downloads" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/training/" onmouseover="shine('tra')" onmouseout="shade('tra')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/tradull.gif" name="tra" alt="Training Courses" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/books/" onmouseover="shine('boo')" onmouseout="shade('boo')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/boodull.gif" name="boo" alt="Books" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/iap/" onmouseover="shine('iap')" onmouseout="shade('iap')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/iapdull.gif" name="iap" alt="Institution of Analysts &amp; Programmers" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/codebin/" onmouseover="shine('cod')" onmouseout="shade('cod')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/coddull.gif" name="cod" alt="Code Bin" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/prizedraw/" onmouseover="shine('prz')" onmouseout="shade('prz')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/przdull.gif" name="prz" alt="Prize Draw" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/survey/" onmouseover="shine('saw')" onmouseout="shade('saw')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/sawdull.gif" name="saw" alt="Survey &amp; Awards" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.devweek.com/" onmouseover="shine('dwk')" onmouseout="shade('dwk')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/dwkdull.gif" name="dwk" alt="DevWeek &amp; SQL Server DevCon" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/about/" onmouseover="shine('abo')" onmouseout="shade('abo')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/abodull.gif" name="abo" alt="About VSJ" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/advertising/" onmouseover="shine('adv')" onmouseout="shade('adv')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/advdull.gif" name="adv" alt="Advertising Information" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td width="153"><a href="http://www.vsj.co.uk/contacts/" onmouseover="shine('cnt')" onmouseout="shade('cnt')"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/cntdull.gif" name="cnt" alt="Contacts" border="0" height="20" width="153"></a></td>
+	<td width="6"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonright.gif" height="20" width="6"></td>
+	</tr>
+	
+	<tr>
+	<td colspan="2" width="159"><a href="http://www.vsj.co.uk/subscriptions/"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/subspromo.gif" alt="Click for a free VSJ subscription" border="0" height="189" width="159"></a></td>
+	</tr>
+	
+<tr>
+<td colspan="2" width="159"><div style="margin-bottom: 20px;"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/buttonsbottom2.gif" height="18" width="159"></div></td>
+</tr>
+</tbody></table></td>
+<td width="100%"><div><table border="0" cellpadding="0" cellspacing="0" width="438">
+<tbody><tr>
+<td colspan="2" width="438"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/art.gif" alt="Articles" height="45" width="438"></td>
+</tr>
+<tr valign="top">
+<td width="62"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/logocorner.gif" height="30" width="62"></td>
+<td width="376"><a href="http://www.hypertracker.com/go/Bearpark/VSJarticlesCompOneSponsorship06/" target="_blank"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/cosebox.gif" alt="ComponentOne Studio Enterprise" style="margin: 0px 0px 2px 4px; float: right;" border="0" height="119" width="92"></a><b>Studio Enterprise 2006 v2</b><small><br><b>Drag. Drop. Deploy.</b><br>What
+could be easier? Studio Enterprise 2006 v2 accelerates visual
+development with drag and drop tools that simplify the design-time
+experience and extend the power of Visual Studio 2005. Now you can
+develop cutting-edge interfaces and add the most sophisticated feature
+sets to your Windows, Web and Mobile applications with less code and in
+less time than ever before.<br><a href="http://www.hypertracker.com/go/Bearpark/VSJarticlesCompOneSponsorship06/" target="_blank">Click here to download a free trial</a></small></td>
+</tr>
+
+<tr>
+<td colspan="2" width="438"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/strapbase.gif" height="20" width="438"></td>
+</tr>
+
+</tbody></table></div>
+<div><table border="0" cellpadding="10" cellspacing="0" width="100%">
+<tbody><tr>
+<td width="100%">
+
+	<div class="pagehead">Making USB C# friendly</div>
+	
+<p><b>At first sight, USB device control can seem like a dark art only
+practised by initiated gurus, but in this article, Ashley Deakin hopes
+to show you the light.</b>
+
+</p><p><small><i>By Ashley Deakin</i></small>
+
+</p><p>
+<b><i>Published: 29 October 2006</i></b>
+
+</p><p>It is often necessary for a manufacturer to have to design some
+simple custom device for IO purposes. It may be to open a barrier or to
+read information from a magnetic strip. In my experience, companies
+tend to choose tried and tested technologies that they are familiar
+with, RS232 and RS485 being two common examples. But as technology
+moves on, serial ports are becoming less and less common on
+motherboards. There are other limitations such as data transfer speed
+and scalability.
+</p><p>A more modern approach that solves many of these problems would
+be to use a USB device instead. You may think this requires heavy
+assembly programming on the PC side and expensive chipsets on the
+device. A few years ago, maybe this would have been correct. These
+days, however, there are many cheap chipsets available that provide USB
+functions for simple, inexpensive devices. For the rest of this article
+I am going to concentrate on creating the software to run on a PC
+connected to such a device.
+</p><p>Later in this article, we will use the techniques presented
+here to control a device that was probably never intended to be used
+with a PC, but opens up lots of possibilities for fun PC game projects
+as well as illustrating the portability and simplicity of USB HID
+devices.
+</p><h3>USB overview</h3>
+A USB device provides information about itself in the form of <i>descriptors</i>.
+A client can then query the device to work out its class and
+capabilities. Two important properties on all USB devices are its <i>Vendor ID</i> (VID) and <i>Product ID</i>
+(PID), which can be used to uniquely identify the device type by the
+operating system&#8217;s plug and play system. Each device can support
+multiple interfaces or <i>endpoints</i>. Each device must support endpoint 0 which is reserved for system use such as device enumeration.
+<p>The operating system provides logical connections or <i>pipes</i> from the client to endpoints on the host device. There are <i>stream pipes</i> and <i>message pipes</i>.
+Endpoints are classified into four types depending upon the transfer
+type supported: control transfers, bulk transfers, interrupt transfers
+and isochronous transfers. The bulk and isochronous transfers tend to
+be used for devices that transfer large amounts of data in bursts or
+streams such as digital cameras or printers. The others are commonly
+used for more immediate or command/response type communications.
+</p><p>There are many classifications of USB devices, each with a
+protocol specification of how to use it. These specification documents
+are available to view online. But amongst all the specific definitions
+for mass storage devices, monitors and printers, there is one that is
+much more general.
+</p><h3>Introducing HID</h3>
+The device type in question is the <i>Human Interface Device</i> or HID interface (see <b>Figure 1</b>).
+<p><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/usb1.jpg" alt="Figure 1" height="316" vspace="2" width="302"><small><br>
+Figure 1: HID device</small>
+</p><p>It is promoted as easy to implement from both the point of view
+of the driver and of the device. Although it has a specific name, its
+uses extend far beyond the limits that name may imply. It is commonly
+associated with keyboards, mice and game controllers, but it is simple
+to extend for custom devices. Devices with a HID interface only
+communicate with either interrupt or control pipes. Data is exchanged
+in the form of <i>reports</i>. There are three types of report: input, output and feature.
+</p><p>HID reports are made up of <i>usages</i> organised into <i>usage pages</i>.
+A usage describes what a particular portion of a report represents, for
+example &#8216;X axis&#8217;, &#8216;Y axis&#8217; or &#8216;throttle&#8217;. A client ascertains the
+format of a report during device enumeration. To formally define the
+reports for a custom device, you can download the <a href="http://www.usb.org/">HID Descriptor tool</a>.
+</p><p>When a HID device is plugged into a Windows XP PC, the operating
+system will detect it and try its best to locate a driver for it. But
+even if no driver is found, Windows device manager will confirm that
+the device is plugged in and that it is HID compliant. If you select
+the &#8216;Details&#8217; tab, you can see a string that contains details of the
+device including its VID and PID. You&#8217;ll need these later when locating
+it programmatically.
+</p><h3>Finding the device</h3>The first step in connecting to the
+device is to locate it. Of course, as is the nature of a USB device, it
+can be inserted or removed at any time. Any serious software solution
+needs to take this into consideration. To detect when a device is
+inserted and removed, a program must register its interest in such
+events by sending its main window handle to RegisterDeviceNotification.
+When a new device is detected or a device removed, Windows sends a
+WM_DEVICECHANGE message. Override WndProc on a Form to handle the
+messages. Once notification of a new device has been received, the
+program needs to search the list of devices currently on the USB bus to
+check if the device that was inserted is the one it is interested in.
+<p>To get the device list, call SetupDiGetClassDevs, one of the USB
+API calls in setupapi.dll. Before we go into details, I need to tell
+you about the Windows USB API documentation. Unless you have already
+installed the Windows DDK, there practically isn&#8217;t any! This isn&#8217;t made
+easier by the fact that there are many USB functions in the API, only a
+few of which you will ever use. You can find information about the API
+functions from the Internet, but it is sparse at best.
+</p><p>SetupDiGetClassDevs provides information about all devices of a
+certain class (e.g. HID) currently connected to the client PC. The
+first parameter to the function is a GUID that specifies the class of
+device to look for. Use HidD_GetHidGuid in hid.dll to obtain the GUID
+that Windows uses to represent the HID class. The function reserves a
+block of memory (an InfoSet) that holds an array with one entry per
+device. The entries in the InfoSet have to be enumerated with calls to
+SetupDiEnumDeviceInterfaces in &#8216;setupapi.dll&#8217;. Each call to this
+function fills a DeviceInterfaceData structure with details about a
+device in the list with a non-zero return code.
+</p><p>But we&#8217;re still not there! We have to drill down even further.
+Now we have to fill a DeviceInterfaceData-Detail structure using a call
+to SetupDiGetDeviceInterfaceDetail. This finally provides us with a
+string that represents a path to the device (just like a file path).
+This path contains the VID and PID of the device amongst other things.
+You can check portions of this string against the VID and PID of your
+device. If they match, you&#8217;ve found your device!
+</p><pre>Device VID 0x054C
+Device PID 0x1000
+Path \\?\hid#vid_054c
+&amp;pid_1000#6&amp;2dd74f76&amp;0&amp;0000#{4d1e55b2-
+f16f-11cf-88cb-001111000030}</pre>In
+the above example, the VID and PID can be seen just after the HID
+specifier (vid_054c&amp;pid_1000). A simple substring match should be
+sufficient (e.g. string.IndexOf()).
+<p>Once all this is complete, you must remember to free the infoset with a call to SetupDiDestroyDevice-InfoList.
+</p><h3>Device operations</h3>Armed with the path to the device, it can
+be opened like a standard file using the CreateFile API call and
+opening it overlapped. For those unfamiliar with Windows IO, this means
+that the resulting file supports concurrent asynchronous read and write
+operations. Once the device is open, reading and writing to it are just
+like reading and writing to a file, although the number of bytes that
+can be read or written is limited to the lengths of the output and
+input reports for the device. You can obtain information about the
+reports with a call to HidD_GetPreparsedData in hid.dll followed by a
+call to HidP_GetCaps. The first API call reserves a block of memory
+that the second accesses. Remember to free the memory with a call to
+HidD_FreePreparsedData. The structure obtained from GetCaps contains
+details about the device&#8217;s capabilities, including the lengths of the
+input and output reports.
+<p>Once the handle to a device has been obtained, it can be passed
+into the constructor of a FileStream object. Normal read and write
+operations can be performed on the FileStream, but the real power comes
+in when using them asynchronously:
+</p><pre>private void BeginAsyncRead()
+{
+	byte[] byIn = new
+		byte[InputReportLength];
+	File.BeginRead(byIn, 0,
+		InputReportLength, new
+		AsyncCallback(ReadCompleted),
+		byIn);
+}
+
+protected void ReadCompleted(
+	IAsyncResult iResult)
+{
+	byte[] byIn =
+		(byte[])iResult.AsyncState;
+	try
+	{
+		File.EndRead(iResult);
+		try
+		{
+			HandleDataReceived(byIn);
+		}
+		finally
+		{
+			BeginAsyncRead();
+		}
+	}
+	catch (IOException ioexc)
+	{
+		// Device has been removed!
+	}
+}</pre>Calling
+the API functions does require that the appropriate structures and API
+calls are defined correctly. You should be able to find all that you
+need on www.pinvoke.net, but the most useful are listed in Table 1.
+<p><table border="1" cellpadding="3" cellspacing="1">
+<tbody><tr>
+<td colspan="3"><b>Table 1 : USB API Calls</b></td>
+</tr>
+<tr>
+<td><b>Call</b></td>
+<td><b>Dll</b></td>
+<td><b>Usage</b></td>
+</tr>
+<tr valign="top">
+<td>SetupDiGetClassDevs</td>
+<td>setupapi</td>
+<td>Gets all connected devices by class</td>
+</tr>
+<tr valign="top">
+<td>SetupDiDestroyDeviceInfoList</td>
+<td>setupapi</td>
+<td>Frees memory allocated in above</td>
+</tr>
+<tr valign="top">
+<td>SetupDiEnumDeviceInterfaces</td>
+<td>setupapi</td>
+<td>Gets details of a connected device</td>
+</tr>
+<tr valign="top">
+<td>SetupDiGetDeviceInterfaceDetail</td>
+<td>setupapi</td>
+<td>Gets further details of above</td>
+</tr>
+<tr valign="top">
+<td>HidD_GetPreparsedData</td>
+<td>hid</td>
+<td>Gets details of open HID device</td>
+</tr>
+<tr valign="top">
+<td>HidD_FreePreparsedData</td>
+<td>hid</td>
+<td>Frees memory allocated in above</td>
+</tr>
+<tr valign="top">
+<td>HidP_GetCaps</td>
+<td>hid</td>
+<td>Gets capabilities of open HID device</td>
+</tr>
+<tr valign="top">
+<td>HidD_GetHidGuid</td>
+<td>hid</td>
+<td>Gets GUID for HID device class</td>
+</tr>
+</tbody></table>
+</p><h3>Now the fun part</h3>Having described the mechanics, now we&#8217;ll
+put it into practice. In this section, you&#8217;ll get an idea of just how
+easy it is to program for simple devices. I will show you how to create
+a C# &#8216;driver&#8217; for the custom controller that is sold with the Sony
+Playstation 2 game &#8216;Buzz&#8217; (published by Sony Computer Entertainment
+Europe). The game costs around £29.99 at <a href="http://www.amazon.co.uk/Buzz-Big-Quiz-Buzzers-PS2/dp/B000EOS7KM/ref=pd_sbs_vg_h__3/026-7031166-4950823">Amazon</a>,
+and is terrific at parties. For those of you who haven&#8217;t seen it, Buzz
+is an entertaining and original game based around a TV music quiz show.
+You can play solo or with up to four players, each having a hand held
+buzzer (see <b>Figure 2</b>) that is used to input the responses to the game questions, usually against the clock.
+<p><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/usb2.jpg" alt="Figure 2" height="176" vspace="2" width="115"><small><br>
+Figure 2: The Buzz controller</small>
+</p><p>There are four handsets connected like a hydra through a central
+moulded hub with a single USB connector. The are five coloured buttons
+on each handset and the big round, red one has a lamp which can be
+turned on or off.
+</p><p>When the USB connector is plugged into a port on a PC, it will
+be detected as a compatible HID device, although Windows will be unable
+to find any actual driver. Device Manager will confirm that the device
+is HID compliant and will show its VID and PID, which can be used to
+locate the device. After detecting, locating and opening the device, we
+must read and write reports to control the handsets. Unfortunately,
+information on how the reports are structured is not freely available,
+but after a bit of experimentation, the appropriate formats become
+clear and seem remarkably straightforward.
+</p><p>There is one output report used to control the lights on the
+handsets and one input report giving details of which buttons are
+currently depressed. To change which handsets are illuminated, simply
+write an output report with the appropriate bits set. When a user
+presses or releases one of the buttons on the handset, the device
+issues an input report. There is no need to poll the device (repeatedly
+check its state) as the device sends unsolicited input reports whenever
+a button is pressed or released.
+</p><p>The output reports are formatted as a byte array. The first two
+bytes are not used and should be ignored. Bytes 3 to 6 control the
+state of the lamp on each handset (byte 3, handset 1; byte 4, handset
+2; etc). Writing a zero turns the lamp off, 0xFF turns it on and
+anything else leaves it unchanged.
+</p><p>The input reports are slightly more complex. The state of each
+button is represented by a bit; 1 for pressed and 0 for not pressed.
+These bits are packed into five bit chunks per handset, with the first
+bit of each chunk appended immediately after the last bit of the
+previous chunk. So some bitwise masking is required to extract the
+button states for each handset. The first button bit is sent in byte 4,
+so the first three bytes can be ignored. See <b>Figure 3</b>.
+</p><p><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/usb3.jpg" alt="Figure 3" height="278" vspace="2" width="300"><small><br>
+Figure 3: The controller format</small>
+</p><p>Writing the output reports is trivial, so this is a good place
+to start. Reading the input reports is not quite as easy, and using the
+.Net Framework&#8217;s asynchronous reads is recommended. Simply kick off an
+asynchronous read using a buffer and byte read count the same length as
+the input report. When a report is read, the read terminates. If an
+asynchronous read terminates with an exception, the device has been
+removed.
+</p><p>The program source for this article can be <a href="http://www.vsj.co.uk/codebin/">downloaded</a>.
+</p><p>I&#8217;m sure at this point you can envisage many different
+entertaining applications for which the Buzz handsets could be used.
+I&#8217;ll leave developing them up to you.
+</p><p></p><hr>
+<p><small>Ashley Deakin is a software team leader with fifteen years
+experience of developing applications for petroleum retailers,
+specialising in communication protocols and real-time device control.</small>
+
+</p><h4>What USB gives you</h4>
+Using a USB interface on your device has many benefits including:
+<ul>
+<li>Hot swappable devices</li>
+<li>Powered interface</li>
+<li>High speed data</li>
+<li>Bus architecture</li>
+<li>Standard protocol</li>
+</ul>
+
+<h4>Resources</h4>
+<ul>
+<li><a href="http://www.usb.org/">www.usb.org</a></li>
+<li><a href="http://msdn.microsoft.com/coding4fun/someassemblyrequired/isthatyou">MSDN Coding4Fun &#8211; Is That You? Writing Better Software for Cool USB Hardware</a> by Scott Hanselmann, </li>
+<li><a href="http://www.beyondlogic.org/usbnutshell/usb4.htm">USB In a Nutshell</a></li>
+<li><a href="http://www.lvr.com/hidpage.htm">The HID Page</a></li>
+<li><i>USBSharp</i>, by Camilo Toro</li>
+</ul>
+
+
+<p></p><hr>
+<p><a href="http://www.vsj.co.uk/articles/">Return to Articles</a>
+
+
+</p><div class="footer" style="margin-top: 16px;"><hr>All contents © 2002&#8211;2006, <a href="http://www.bearpark.co.uk/" target="_blank" class="footer">Bearpark Publishing Ltd</a>.</div>
+<div class="footer" style="margin-top: 4px;">Web site by <a href="http://www.homepage.co.uk/" target="_blank" class="footer">HomePage Media Ltd</a>.</div>
+</td>
+</tr>
+</tbody></table></div></td>
+<td width="143"><table border="0" cellpadding="0" cellspacing="0" width="143">
+<tbody><tr valign="top">
+<td width="3"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/skyleft.gif" height="610" width="3"></td>
+<td bgcolor="#000000" width="10"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/null.gif" height="10" width="10"></td>
+
+			<td bgcolor="#000000" width="120"><a href="http://www.vsj.co.uk/go.asp?ad=21&amp;section=art&amp;url=http://www.hypertracker.com/go/Bearpark/VSJskyscraperInfragisticsNov06/" target="_blank"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/infrag-netadv2006sky2.gif" alt="NetAdvantage for .NET 2006 Vol 3 - new Office 2007 UI" border="0" height="600" width="120"></a></td>
+			
+<td bgcolor="#000000" width="10"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/null.gif" height="10" width="10"></td>
+</tr>
+<tr>
+<td colspan="4" width="143"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/skybase.gif" height="8" width="143"></td>
+</tr>
+<tr>
+<td colspan="4" width="143"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/null.gif" height="10" width="10"></td>
+</tr>
+</tbody></table></td>
+<td width="7"><img src="VSJ%20Articles%20Making%20USB%20C%23%20friendly_files/lowerright.gif" height="618" width="7"></td>
+</tr>
+</tbody></table></td>
+</tr>
+</tbody></table>
+
+
+
+<!-- Site by HomePage Media Ltd
+www.homepage.co.uk -->
+
+</body></html>

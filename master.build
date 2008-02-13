@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<project name="LigthtStone4net" default="build">
+	<!-- global project settings -->
+	<property name="basedir" value="${project::get-base-directory()}" /> <!-- relative path to the Trunk directory -->
+
+	<include buildfile="${basedir}/BuildSupport/MasterBuild.include"/>
+
+	<property name="packages.basedir" value="${build.dir}/Packages" />
+	<property name="zipfile" value="LigthtStone4net.zip" />
+	<property name="zipfile.path" value="${build.dir}/${zipfile}" />
+
+	<property name="zipfileSource" value="LigthtStone4net.Source.zip" />
+	<property name="zipfileSource.path" value="${build.dir}/${zipfileSource}" />
+
+	<property name="zipfileBinaries" value="LigthtStone4net.Binaries.zip" />
+	<property name="zipfileBinaries.path" value="${build.dir}/${zipfileBinaries}" />
+
+	<property name="web.source.dir" value="${basedir}\..\WebSource" />
+	<property name="web.dir" value="${basedir}\..\Web" />
+
+	<!-- build tasks -->
+	<target name="recurse" description="Recursively invokes specified target in all subprojects">
+		<property name="configured" value="true"/>
+		
+		<nant buildfile="Code/LightStone4net.build" target="${target}"/>
+	</target>
+
+	<target name="updateVersion" depends="init" description="Updates version numbers in all projects">
+ 		<version-xml path="version.xml" incrementBuildNr="true"/>
+
+		<assemblyInfo version="${sys.version}">
+			<assemblyInfos basedir="Code">
+				<include name="AssemblyInfo*.*"/>
+			</assemblyInfos>
+		</assemblyInfo>
+
+		<!-- Recursively update the version of subprojects -->
+		<property name="target" value="updateVersion"/>
+		<call target="recurse" />
+	</target>
+
+	<target name="package" depends="build" description="Creates zip files for distribution">
+		<call target="zipBinaries" />
+		<call target="zipSourceOnly" />
+		<call target="zipAll" />
+	</target>
+
+	<target name="zipAll" description="Creates zip file for distribution">
+		<echo message="Assembling zip file ${zipfile.path} ..."/>
+
+		<zip zipfile="${zipfile.path}">
+			<fileset>
+				<include name="**"/>
+				<include name="${build.dir}/**"/>
+				<exclude name="${build.dir}/${zipfile}"/>
+				<exclude name="${build.dir}/${zipfileSource}"/>
+				<exclude name="${build.dir}/${zipfileBinaries}"/>
+				<exclude name="**/.svn/**"/>
+				<exclude name="**/*.lnk"/>
+				<exclude name="**/*.suo"/>
+				<exclude name="**/*.csproj.user"/>
+				<exclude name="**/bin/**"/>
+				<exclude name="**/obj/**"/>
+				<exclude name="web/**"/>
+			</fileset>
+            <fileset>
+				<include name="${build.dir.neutral}/**"/>
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="zipSourceOnly" description="Creates zip file for distribution">
+		<echo message="Assembling zip file ${zipfileSource.path} ..."/>
+
+		<zip zipfile="${zipfileSource.path}">
+			<fileset>
+				<include name="**"/>
+				<exclude name="${build.dir}/${zipfile}"/>
+				<exclude name="${build.dir}/${zipfileSource}"/>
+				<exclude name="${build.dir}/${zipfileBinaries}"/>
+				<exclude name="**/.svn/**"/>
+				<exclude name="**/*.lnk"/>
+				<exclude name="**/*.suo"/>
+				<exclude name="**/*.csproj.user"/>
+				<exclude name="**/bin/**"/>
+				<exclude name="**/obj/**"/>
+				<exclude name="web/**"/>
+			</fileset>
+            <fileset>
+				<include name="${build.dir.neutral}/**"/>
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="zipBinaries" description="Creates zip file for distribution">
+		<echo message="Assembling zip file ${zipfileBinaries.path} ..."/>
+
+		<zip zipfile="${zipfileBinaries.path}">
+			<fileset>
+				<include name="${build.dir.neutral}/**"/>
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="assembleWeb" depends="package" description="Assembles web site">
+		<echo message="Assembling web site ..."/>
+
+		<delete dir="${web.dir}" if="${directory::exists(web.dir)}"/>
+		<mkdir dir="${web.dir}"/>
+
+		<property name="file.index" value="index.html" />
+		<copy file="${web.source.dir}/${file.index}" tofile="${web.dir}/${file.index}"/>
+
+		<property name="file.versionHistory" value="VersionHistory.html" />
+		<copy file="${file.versionHistory}" tofile="${web.dir}/${file.versionHistory}"/>
+
+		<property name="file.license" value="LICENSE.txt" />
+		<copy file="${file.license}" tofile="${web.dir}/${file.license}"/>
+
+		<property name="file.portingNotes" value="PortingNotes.htm" />
+		<copy file="${file.portingNotes}" tofile="${web.dir}/${file.portingNotes}"/>
+
+		<property name="file.codingStandards" value="CodingStandards.pdf" />
+		<copy file="doc/${file.codingStandards}" tofile="${web.dir}/${file.codingStandards}"/>
+
+		<copy file="${zipfile.path}" tofile="${web.dir}/${zipfile}"/>
+	</target>
+</project>
