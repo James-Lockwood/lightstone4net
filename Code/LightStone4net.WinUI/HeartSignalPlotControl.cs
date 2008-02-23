@@ -35,16 +35,16 @@ using LightStone4net.Core.Data;
 
 namespace LightStone4net.WinUI
 {
-	public partial class HeartSignalControl : UserControl
+	public partial class HeartSignalPlotControl : UserControl
 	{
 		private static readonly TimeSpan c_MaxAllowedTimeSpan = TimeSpan.FromMinutes(30);
 		private TimeSpan m_DisplayPeriod;
 		private ITimeSpanBuffer<double> m_PointBuffer;
 		private LinePlot m_LinePlot;
 
-		public HeartSignalControl()
+		public HeartSignalPlotControl()
 		{
-			this.DisplayPeriod = TimeSpan.FromSeconds(30);
+			this.DisplayPeriod = TimeSpan.FromSeconds(10);
 			InitializeComponent();
 		}
 
@@ -68,7 +68,7 @@ namespace LightStone4net.WinUI
 				m_PlotSurface.Add(m_LinePlot);
 
 				m_PlotSurface.XAxis1 = new DateTimeAxis(m_PlotSurface.XAxis1);
-				m_PlotSurface.XAxis1.NumberFormat = "hh:mm:ss";
+				m_PlotSurface.XAxis1.NumberFormat = "mm:ss";
 
 				m_PlotSurface.Title = "Normalized Heart Signal";
 				m_PlotSurface.XAxis1.Label = "Time";

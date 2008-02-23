@@ -48,11 +48,17 @@
     <Compile Include="BeatsPerMinuteControl.Designer.cs">
       <DependentUpon>BeatsPerMinuteControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="HeartSignalControl.cs">
+    <Compile Include="HeartSignalPlotControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="HeartSignalControl.Designer.cs">
-      <DependentUpon>HeartSignalControl.cs</DependentUpon>
+    <Compile Include="HeartSignalPlotControl.Designer.cs">
+      <DependentUpon>HeartSignalPlotControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HrvSdnnPlotControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HrvSdnnPlotControl.Designer.cs">
+      <DependentUpon>HrvSdnnPlotControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadSafeControls\Delegates.cs" />
@@ -68,9 +74,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>BeatsPerMinuteControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HeartSignalControl.resx">
+    <EmbeddedResource Include="HeartSignalPlotControl.resx">
+      <DependentUpon>HeartSignalPlotControl.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>HeartSignalControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HrvSdnnPlotControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HrvSdnnPlotControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

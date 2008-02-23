@@ -33,7 +33,7 @@ namespace TestViewer
 			this.m_BottomPanel = new System.Windows.Forms.Panel();
 			this.m_Timer = new System.Windows.Forms.Timer(this.components);
 			this.beatsPerMinuteControl1 = new LightStone4net.WinUI.BeatsPerMinuteControl();
-			this.heartSignalControl1 = new LightStone4net.WinUI.HeartSignalControl();
+			this.heartSignalControl1 = new LightStone4net.WinUI.HeartSignalPlotControl();
 			this.m_BottomPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -84,7 +84,7 @@ namespace TestViewer
 		private System.Windows.Forms.Panel m_BottomPanel;
 		private System.Windows.Forms.Timer m_Timer;
 		private LightStone4net.WinUI.BeatsPerMinuteControl beatsPerMinuteControl1;
-		private LightStone4net.WinUI.HeartSignalControl heartSignalControl1;
+		private LightStone4net.WinUI.HeartSignalPlotControl heartSignalControl1;
 	}
 }
 

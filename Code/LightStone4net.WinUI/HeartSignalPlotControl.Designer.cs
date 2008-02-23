@@ -1,6 +1,6 @@
 namespace LightStone4net.WinUI
 {
-	partial class HeartSignalControl
+	partial class HeartSignalPlotControl
 	{
 		/// <summary> 
 		/// Required designer variable.

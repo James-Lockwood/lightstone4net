@@ -48,6 +48,7 @@
     <Compile Include="HeartRate.cs" />
     <Compile Include="Internal\BeatsPerMinuteCalculator.cs" />
     <Compile Include="Internal\HeartPeakDetector.cs" />
+    <Compile Include="Internal\HrvSdnnCalculator.cs" />
     <Compile Include="Internal\Output.cs" />
     <Compile Include="LightStoneDevice.cs" />
     <Compile Include="Internal\MessageBuilder.cs" />

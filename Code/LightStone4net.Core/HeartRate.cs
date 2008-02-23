@@ -31,7 +31,7 @@ namespace LightStone4net.Core
 {
 	public sealed class HeartRate
 	{
-	    public static readonly HeartRate Instance=new HeartRate();
+	    public static readonly HeartRate Instance = new HeartRate();
 
 		// Explicit static constructor to tell C# compiler
 		// not to mark type as beforefieldinit
@@ -40,8 +40,12 @@ namespace LightStone4net.Core
 		}
 
 		private int m_BeatsPerMinute = 0;
+		private double m_HrvSdnn = 0.0;
+		private TimeSpan m_RRInterval = TimeSpan.Zero;
 		private HeartPeakInput m_HeartPeakInput;
+		private RRIntervalInput m_RRIntervalInput;
 		private BeatsPerMinuteInput m_BeatsPerMinuteInput;
+		private HrvSdnnInput m_HrvSdnnInput;
 		private bool m_BeepEnabled = true;
 
 		private HeartRate()
@@ -49,8 +53,20 @@ namespace LightStone4net.Core
 			m_HeartPeakInput = new HeartPeakInput(this);
 			HeartPeakDetector.Instance.PeakOutput.Add(m_HeartPeakInput);
 
+			m_RRIntervalInput = new RRIntervalInput(this);
+			HeartPeakDetector.Instance.RRIntervalOutput.Add(m_RRIntervalInput);
+
 			m_BeatsPerMinuteInput = new BeatsPerMinuteInput(this);
 			BeatsPerMinuteCalculator.Instance.Output.Add(m_BeatsPerMinuteInput);
+
+			m_HrvSdnnInput = new HrvSdnnInput(this);
+			HrvSdnnCalculator.Instance.Output.Add(m_HrvSdnnInput);
+		}
+
+		public bool BeepEnabled
+		{
+			get { return m_BeepEnabled;	}
+			set { m_BeepEnabled = value; }
 		}
 
 		private void OnNewHeartBeat(TimeStampedValue<double> timeStampedValue)
@@ -61,32 +77,52 @@ namespace LightStone4net.Core
 			}
 		}
 
+		/// <summary>
+		/// The current R-R interval (interval between ventricular depolarizations)
+		/// </summary>
+		public TimeSpan RRInterval
+		{
+			get { return m_RRInterval; }
+		}
+
+		/// <summary>
+		/// Delivers time stamped R-R intervals (intervals between ventricular depolarizations)
+		/// </summary>
+		public ISource<TimeStampedValue<TimeSpan>> RRIntervalOutput
+		{
+			get { return HeartPeakDetector.Instance.RRIntervalOutput; }
+		}
+
+		/// <summary>
+		/// Current beats per minute
+		/// </summary>
 		public int BeatsPerMinute
 		{
-			get
-			{
-				return m_BeatsPerMinute;
-			}
+			get { return m_BeatsPerMinute; }
 		}
 
-		public ISource<int> BeatsPerMinuteOutput
+		/// <summary>
+		/// Beats per minute output
+		/// </summary>
+		public ISource<TimeStampedValue<int>> BeatsPerMinuteOutput
 		{
-			get
-			{
-				return BeatsPerMinuteCalculator.Instance.Output;
-			}
+			get { return BeatsPerMinuteCalculator.Instance.Output; }
 		}
 
-		public bool BeepEnabled
+		/// <summary>
+		/// The standard deviation between R-R intervals
+		/// </summary>
+		public double HrvSdnn
 		{
-			get
-			{
-				return m_BeepEnabled;
-			}
-			set
-			{
-				m_BeepEnabled = value;
-			}
+			get { return m_HrvSdnn; }
+		}
+
+		/// <summary>
+		/// Delivers time stamped standard deviation values between R-R intervals
+		/// </summary>
+		public ISource<TimeStampedValue<double>> HrvSdnnOutput
+		{
+			get { return HrvSdnnCalculator.Instance.Output; }
 		}
 
 		#region nested Input classes
@@ -110,7 +146,26 @@ namespace LightStone4net.Core
 			#endregion
 		}
 
-		private class BeatsPerMinuteInput : ISink<int>
+		private class RRIntervalInput : ISink<TimeStampedValue<TimeSpan>>
+		{
+			private HeartRate m_HeartRate;
+
+			internal RRIntervalInput(HeartRate heartRate)
+			{
+				m_HeartRate = heartRate;
+			}
+
+			#region ISink<TimeStampedValue<TimeSpan>> Members
+
+			public void Accept(TimeStampedValue<TimeSpan> timeStampedValue)
+			{
+				m_HeartRate.m_RRInterval = timeStampedValue.Value;
+			}
+
+			#endregion
+		}
+
+		private class BeatsPerMinuteInput : ISink<TimeStampedValue<int>>
 		{
 			private HeartRate m_HeartRate;
 
@@ -119,11 +174,30 @@ namespace LightStone4net.Core
 				m_HeartRate = heartRate;
 			}
 
+			#region ISink<int> Members
+
+			public void Accept(TimeStampedValue<int> timeStampedValue)
+			{
+				m_HeartRate.m_BeatsPerMinute = timeStampedValue.Value;
+			}
+
+			#endregion
+		}
+
+		private class HrvSdnnInput : ISink<TimeStampedValue<double>>
+		{
+			private HeartRate m_HeartRate;
+
+			internal HrvSdnnInput(HeartRate heartRate)
+			{
+				m_HeartRate = heartRate;
+			}
+
 			#region ISink<TimeStampedValue<double>> Members
 
-			public void Accept(int value)
+			public void Accept(TimeStampedValue<double> timeStampedValue)
 			{
-				m_HeartRate.m_BeatsPerMinute = value;
+				m_HeartRate.m_HrvSdnn = timeStampedValue.Value;
 			}
 
 			#endregion

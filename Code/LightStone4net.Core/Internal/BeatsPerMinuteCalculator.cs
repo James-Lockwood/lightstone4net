@@ -30,7 +30,7 @@ using LightStone4net.Core.Utilities;
 
 namespace LightStone4net.Core
 {
-	public sealed class BeatsPerMinuteCalculator : ISink<TimeStampedValue<double>>, IOutput<int>
+	public sealed class BeatsPerMinuteCalculator : ISink<TimeStampedValue<double>>, IOutput<TimeStampedValue<int>>
 	{
 		public static readonly BeatsPerMinuteCalculator Instance = new BeatsPerMinuteCalculator();
 
@@ -42,11 +42,11 @@ namespace LightStone4net.Core
 
 		private TimeSpanBuffer<double> m_TimeSpanBuffer;
 		private TimeSpan m_IntegrationPeriod;
-		private Output<int> m_Output;
+		private Output<TimeStampedValue<int>> m_Output;
 
 		private BeatsPerMinuteCalculator()
 		{
-			m_Output = new Output<int>();
+			m_Output = new Output<TimeStampedValue<int>>();
 			m_IntegrationPeriod = TimeSpan.FromSeconds(15);
 			m_TimeSpanBuffer = new TimeSpanBuffer<double>(m_IntegrationPeriod, 200);
 
@@ -55,9 +55,9 @@ namespace LightStone4net.Core
 
 		#region ISink<TimeStampedValue<double>> Members
 
-		void ISink<TimeStampedValue<double>>.Accept(TimeStampedValue<double> value)
+		void ISink<TimeStampedValue<double>>.Accept(TimeStampedValue<double> timeStampedValue)
 		{
-			m_TimeSpanBuffer.Add(value);
+			m_TimeSpanBuffer.Add(timeStampedValue);
 			TimeSpan coveredTimeSpan;
 			if (m_TimeSpanBuffer.IsReady)
 			{
@@ -81,14 +81,16 @@ namespace LightStone4net.Core
 			double beatsPerMinute = (m_TimeSpanBuffer.Count - 1) * ((double)TimeSpan.FromSeconds(60).Ticks / (double)coveredTimeSpan.Ticks);
 			int roundedBeatsPerMinute = (int)Math.Round(beatsPerMinute);
 
-			m_Output.WriteOutput(roundedBeatsPerMinute);
+			m_Output.WriteOutput(
+				new TimeStampedValue<int>(timeStampedValue.TimeStamp, roundedBeatsPerMinute)
+			);
 		}
 
 		#endregion
 
-		#region IOutput<int> Members
+		#region IOutput<TimeStampedValue<int>> Members
 
-		public ISource<int> Output
+		public ISource<TimeStampedValue<int>> Output
 		{
 			get { return m_Output; }
 		}

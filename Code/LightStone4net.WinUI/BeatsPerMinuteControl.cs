@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using LightStone4net.Core;
 using LightStone4net.Core.Utilities;
 using LightStone4net.Core.Filter;
+using LightStone4net.Core.Data;
 
 namespace LightStone4net.WinUI
 {
@@ -56,7 +57,7 @@ namespace LightStone4net.WinUI
 
 		#region nested Input classes
 
-		private class BeatsPerMinuteInput : ISink<int>
+		private class BeatsPerMinuteInput : ISink<TimeStampedValue<int>>
 		{
 			private BeatsPerMinuteControl m_Parent;
 
@@ -65,11 +66,11 @@ namespace LightStone4net.WinUI
 				m_Parent = parent;
 			}
 
-			#region ISink<TimeStampedValue<double>> Members
+			#region ISink<TimeStampedValue<int>> Members
 
-			public void Accept(int value)
+			public void Accept(TimeStampedValue<int> timeStampedValue)
 			{
-				m_Parent.m_BeatsPerMinuteTextBox.Text = value.ToString();
+				m_Parent.m_BeatsPerMinuteTextBox.Text = timeStampedValue.Value.ToString();
 			}
 
 			#endregion
