@@ -52,7 +52,7 @@ namespace LightStone4net.Core.Internal
 		private TimeStampedValue<double> m_PreviousTimeStampedValue;
 		private State m_State = State.GoingUp;
 		private Output<TimeStampedValue<double>> m_PeakOutput;
-		private Output<TimeSpan> m_PeakIntervalOutput;
+		private Output<TimeStampedValue<TimeSpan>> m_RRIntervalOutput;
 
 		private HeartPeakDetector()
 		{
@@ -60,7 +60,7 @@ namespace LightStone4net.Core.Internal
 			m_PreviousTimeStampedValue = new TimeStampedValue<double>(DateTime.MinValue, 0);
 
 			m_PeakOutput = new Output<TimeStampedValue<double>>();
-			m_PeakIntervalOutput = new Output<TimeSpan>();
+			m_RRIntervalOutput = new Output<TimeStampedValue<TimeSpan>>();
 
 			NormalizerFilter normalizerFilter = new NormalizerFilter(TimeSpan.FromSeconds(1.5));
 			LightStoneDevice.Instance.RawHeartSignalOutput.Add(normalizerFilter);
@@ -139,8 +139,9 @@ namespace LightStone4net.Core.Internal
 			m_PeakOutput.WriteOutput(newPeakValue);
 			if (m_PreviousPeak.TimeStamp.Ticks > DateTime.MinValue.Ticks)
 			{
-				m_PeakIntervalOutput.WriteOutput(
-					new TimeSpan(newPeakValue.TimeStamp.Ticks - m_PreviousPeak.TimeStamp.Ticks));
+				TimeSpan rrInterval = new TimeSpan(newPeakValue.TimeStamp.Ticks - m_PreviousPeak.TimeStamp.Ticks);
+				m_RRIntervalOutput.WriteOutput(
+					new TimeStampedValue<TimeSpan>(newPeakValue.TimeStamp, rrInterval));
 			}
 		}
 
@@ -152,11 +153,14 @@ namespace LightStone4net.Core.Internal
 			}
 		}
 
-		public ISource<TimeSpan> PeakIntervalOutput
+		/// <summary>
+		/// Delivers the R-R intervals (intervals between ventricular depolarizations)
+		/// </summary>
+		public ISource<TimeStampedValue<TimeSpan>> RRIntervalOutput
 		{
 			get
 			{
-				return m_PeakIntervalOutput;
+				return m_RRIntervalOutput;
 			}
 		}
 
