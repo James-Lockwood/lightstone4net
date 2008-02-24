@@ -52,6 +52,7 @@
     <Compile Include="Internal\Output.cs" />
     <Compile Include="LightStoneDevice.cs" />
     <Compile Include="Internal\MessageBuilder.cs" />
+    <Compile Include="Utilities\AutoRange.cs" />
     <Compile Include="Utilities\CircularBuffer.cs" />
     <Compile Include="Utilities\DataWriter.cs" />
     <Compile Include="Utilities\ITimeSpanBuffer.cs" />
