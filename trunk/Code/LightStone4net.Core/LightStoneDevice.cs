@@ -57,11 +57,40 @@ namespace LightStone4net.Core
 			// LightStone bought December 2006:
 			//     Vendor ID: 5370 (0x14FA), Product ID: 1 (0x0001) [Version number: 9281 (0x2441)]
 			// VID and PID for Lightstone device are 0x054c and 0x1000 respectively
-			return (LightStoneDevice)FindDevice(
-				0x14FA,
-				0x0001,
-				delegate(string devicePath) { return new LightStoneDevice(devicePath); }
+
+			DeviceIdInfo[] deviceIdInfos = new DeviceIdInfo[]
+			{
+				new DeviceIdInfo(0x0483, 0x0035),
+				new DeviceIdInfo(0x14FA, 0x0001),
+			};
+
+			LightStoneDevice lightStoneDevice = null;
+			foreach (DeviceIdInfo deviceIdInfo in deviceIdInfos)
+			{
+				lightStoneDevice = (LightStoneDevice)FindDevice(
+					deviceIdInfo.VendorId,
+					deviceIdInfo.ProductId,
+					delegate(string devicePath) { return new LightStoneDevice(devicePath); }
 				);
+
+				if (lightStoneDevice != null)
+				{
+					break;
+				}
+			}
+			return lightStoneDevice;
+		}
+
+		private struct DeviceIdInfo
+		{
+			public readonly int VendorId;
+			public readonly int ProductId;
+
+			public DeviceIdInfo(int vendorId, int productId)
+			{
+				VendorId = vendorId;
+				ProductId = productId;
+			}
 		}
 
 		public static readonly TimeSpan SamplingInterval = TimeSpan.FromMilliseconds(32); // interval between samples taken by lighstone
