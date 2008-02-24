@@ -128,6 +128,7 @@ namespace LightStone4net.Core
 		public void ResetHrv()
 		{
 			HrvSdnnCalculator.Instance.Reset();
+			m_HrvSdnn = 0;
 		}
 
 		#region nested Input classes
