@@ -147,10 +147,7 @@ namespace LightStone4net.Core.Internal
 
 		public ISource<TimeStampedValue<double>> PeakOutput
 		{
-			get
-			{
-				return m_PeakOutput;
-			}
+			get { return m_PeakOutput; }
 		}
 
 		/// <summary>
@@ -158,10 +155,7 @@ namespace LightStone4net.Core.Internal
 		/// </summary>
 		public ISource<TimeStampedValue<TimeSpan>> RRIntervalOutput
 		{
-			get
-			{
-				return m_RRIntervalOutput;
-			}
+			get { return m_RRIntervalOutput; }
 		}
 
 		private bool IsAboveThreshold(TimeStampedValue<double> timeStampedValue)
