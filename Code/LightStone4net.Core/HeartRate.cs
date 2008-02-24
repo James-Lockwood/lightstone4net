@@ -125,6 +125,11 @@ namespace LightStone4net.Core
 			get { return HrvSdnnCalculator.Instance.Output; }
 		}
 
+		public void ResetHrv()
+		{
+			HrvSdnnCalculator.Instance.Reset();
+		}
+
 		#region nested Input classes
 
 		private class HeartPeakInput : ISink<TimeStampedValue<double>>

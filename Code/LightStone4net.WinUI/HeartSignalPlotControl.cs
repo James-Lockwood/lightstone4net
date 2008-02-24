@@ -76,7 +76,7 @@ namespace LightStone4net.WinUI
 
 				RefreshGraph();
 
-				m_Timer.Interval = 200;
+				m_Timer.Interval = 100;
 				m_Timer.Enabled = true;
 			}
 			base.OnCreateControl();

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestViewer", "TestViewer\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightStone4net.WinUI", "LightStone4net.WinUI\LightStone4net.WinUI.csproj", "{17466444-DF91-4F2B-ACCF-5A1AADF5BE46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightStone4net.Viewer", "LightStone4net.Viewer\LightStone4net.Viewer.csproj", "{8A863869-2303-4E96-904C-5E61A0E5594E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{17466444-DF91-4F2B-ACCF-5A1AADF5BE46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17466444-DF91-4F2B-ACCF-5A1AADF5BE46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17466444-DF91-4F2B-ACCF-5A1AADF5BE46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A863869-2303-4E96-904C-5E61A0E5594E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A863869-2303-4E96-904C-5E61A0E5594E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A863869-2303-4E96-904C-5E61A0E5594E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A863869-2303-4E96-904C-5E61A0E5594E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
