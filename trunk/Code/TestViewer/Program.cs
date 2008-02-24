@@ -21,6 +21,7 @@ along with LightStone4net.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using LightStone4net.WinUI;
 
 namespace TestViewer
 {
@@ -32,6 +33,8 @@ namespace TestViewer
 		[STAThread]
 		static void Main()
 		{
+			LightStoneUI.Initialize();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainForm());

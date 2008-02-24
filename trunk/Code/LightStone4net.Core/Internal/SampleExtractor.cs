@@ -22,11 +22,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using UsbLib;
 using LightStone4net.Core.Utilities;
 
 namespace LightStone4net.Core.Internal
 {
-	internal class SampleExtractor
+	internal class SampleExtractor : IDataReceiver
 	{
 		private LightStoneDevice m_LightStoneDevice;
 		private MessageBuilder m_MessageBuilder;
@@ -41,11 +42,14 @@ namespace LightStone4net.Core.Internal
 			m_MessageBuilder = new MessageBuilder(this);
 		}
 
-		internal void HandleNewData(byte[] data)
+		public void HandleNewData(byte[] data)
 		{
-			Debug.WriteLine(BuildHexString(data));
-			//m_DataWriter.HandleNewData(data);
-			m_MessageBuilder.HandleNewData(data);
+			if (data != null)
+			{
+				Debug.WriteLine(BuildHexString(data));
+				//m_DataWriter.HandleNewData(data);
+				m_MessageBuilder.HandleNewData(data);
+			}
 		}
 
 		private string BuildHexString(byte[] data)

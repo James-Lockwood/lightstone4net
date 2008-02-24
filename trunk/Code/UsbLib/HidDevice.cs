@@ -2,15 +2,33 @@ using System;
 using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace UsbLib
 {
 	/// <summary>
-	/// Abstract HID device : Derive your new device controller class from this
+	/// Generic HID device
 	/// </summary>
-	public abstract class HidDevice : Win32Usb, IDisposable
+	public class HidDevice : Win32Usb, IDisposable
 	{
 		#region Static stuff
+
+		/// <summary>
+		/// Finds a device given its PID and VID
+		/// </summary>
+		/// <param name="vendorId">Vendor id for device (VID)</param>
+		/// <param name="productId">Product id for device (PID)</param>
+		/// <param name="creatorDelegate">A delgate that will be invoked to create the actual device class.</param>
+		/// <returns>A new device class of the given type or null</returns>
+		public static HidDevice FindDevice(int vendorId, int productId)
+		{
+			return HidDevice.FindDevice(
+				vendorId,
+				productId,
+				delegate(string devicePath) { return new HidDevice(devicePath); }
+			);
+		}
+		
 		/// <summary>
 		/// Finds a device given its PID and VID
 		/// </summary>
@@ -90,6 +108,9 @@ namespace UsbLib
 
 		private string m_Manufacturer;
 		private string m_Product;
+
+		private IDataReceiver m_DataReceiver;
+
 		#endregion
 
 		#region Construction related
@@ -110,8 +131,11 @@ namespace UsbLib
 				InitializeProduct();
 				InitializeCapabilities();
 
-
-				m_File = new FileStream(m_hHandle, FileAccess.Read | FileAccess.Write, true, m_InputReportLength, true);	// wrap the file handle in a .Net file stream
+				m_File = new FileStream(
+					new SafeFileHandle(m_hHandle, false),
+					FileAccess.Read | FileAccess.Write,
+					m_InputReportLength,
+					true);	// wrap the file handle in a .Net file stream
 
 			}
 			else	// File open failed? Chuck an exception
@@ -119,14 +143,6 @@ namespace UsbLib
 				m_hHandle = IntPtr.Zero;
 				throw HidDeviceException.GenerateWithWinError("Failed to create device file");
 			}
-		}
-
-		/// <summary>
-		/// Kick off the first asynchronous read
-		/// </summary>
-		protected void Start()
-		{
-			BeginAsyncRead();
 		}
 
 		private void InitializeAttributes()
@@ -199,10 +215,6 @@ namespace UsbLib
 			}
 		}
 
-		#endregion
-
-		#region Privates/protected
-
 		private string GetUnicodeString(byte[] buffer)
 		{
 			int contentLength = 0;
@@ -217,6 +229,19 @@ namespace UsbLib
 			return new UnicodeEncoding().GetString(buffer, 0, contentLength);
 		}
 
+		#endregion
+
+		#region Privates/protected
+
+		/// <summary>
+		/// Kick off the first asynchronous read
+		/// </summary>
+		public void Start(IDataReceiver dataReceiver)
+		{
+			m_DataReceiver = dataReceiver;
+			BeginAsyncRead();
+		}
+
 		/// <summary>
 		/// Kicks off an asynchronous read which completes when data is read or when the device
 		/// is disconnected. Uses a callback.
@@ -227,6 +252,7 @@ namespace UsbLib
 			// put the buff we used to receive the stuff as the async state then we can get at it when the read completes
 			m_File.BeginRead(arrInputReport, 0, m_InputReportLength, new AsyncCallback(ReadCompleted), arrInputReport);
 		}
+
 		/// <summary>
 		/// Callback for above. Care with this as it will be called on the background thread from the async read
 		/// </summary>
@@ -243,7 +269,7 @@ namespace UsbLib
 					//inputReport.SetData(data);	// and set the data portion - this processes the data received into a more easily understood format depending upon the report type
 					//HandleDataReceived(inputReport);	// pass the new input report on to the higher level handler
 
-					OnDataReceived(data);
+					m_DataReceiver.HandleNewData(data);
 				}
 				finally
 				{
@@ -252,7 +278,6 @@ namespace UsbLib
 			}
 			catch (IOException)	// if we got an IO exception, the device was removed
 			{
-				HandleDeviceRemoved();
 				if (OnDeviceRemoved != null)
 				{
 					OnDeviceRemoved(this, new EventArgs());
@@ -260,11 +285,12 @@ namespace UsbLib
 				Dispose();
 			}
 		}
+
 		/// <summary>
 		/// Write an output report to the device.
 		/// </summary>
 		/// <param name="outputReport">Output report to write</param>
-		protected void Write(OutputReport outputReport)
+		public void Write(OutputReport outputReport)
 		{
 			try
 			{
@@ -277,57 +303,10 @@ namespace UsbLib
 			}
 		}
 
-		protected virtual void OnDataReceived(byte[] data)
-		{
-		}
-
-		/// <summary>
-		/// virtual handler for any action to be taken when data is received. Override to use.
-		/// </summary>
-		/// <param name="inputReport">The input report that was received</param>
-		protected virtual void HandleDataReceived(InputReport inputReport)
-		{
-		}
-
-		/// <summary>
-		/// Virtual handler for any action to be taken when a device is removed. Override to use.
-		/// </summary>
-		protected virtual void HandleDeviceRemoved()
-		{
-		}
-		#endregion
-
-		#region IDisposable Members
-		/// <summary>
-		/// Dispose method
-		/// </summary>
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-		/// <summary>
-		/// Disposer called by both dispose and finalise
-		/// </summary>
-		/// <param name="bDisposing">True if disposing</param>
-		protected virtual void Dispose(bool bDisposing)
-		{
-			if (bDisposing)	// if we are disposing, need to close the managed resources
-			{
-				if (m_File != null)
-				{
-					m_File.Close();
-					m_File = null;
-				}
-			}
-			if (m_hHandle != IntPtr.Zero)	// Dispose and finalize, get rid of unmanaged resources
-			{
-				CloseHandle(m_hHandle);
-			}
-		}
 		#endregion
 
 		#region Publics
+
 		/// <summary>
 		/// Event handler called when device has been removed
 		/// </summary>
@@ -363,27 +342,47 @@ namespace UsbLib
 		/// </summary>
 		public int OutputReportLength
 		{
-			get
-			{
-				return m_OutputReportLength;
-			}
+			get { return m_OutputReportLength; }
 		}
+
 		/// <summary>
 		/// Accessor for input report length
 		/// </summary>
 		public int InputReportLength
 		{
-			get
-			{
-				return m_InputReportLength;
-			}
+			get { return m_InputReportLength; }
+		}
+
+		#endregion
+
+		#region IDisposable Members
+		/// <summary>
+		/// Dispose method
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 		/// <summary>
-		/// Virtual method to create an input report for this device. Override to use.
+		/// Disposer called by both dispose and finalise
 		/// </summary>
-		/// <returns>A shiny new input report</returns>
-		public abstract InputReport CreateInputReport();
-
+		/// <param name="bDisposing">True if disposing</param>
+		protected virtual void Dispose(bool bDisposing)
+		{
+			if (bDisposing)	// if we are disposing, need to close the managed resources
+			{
+				if (m_File != null)
+				{
+					m_File.Close();
+					m_File = null;
+				}
+			}
+			if (m_hHandle != IntPtr.Zero)	// Dispose and finalize, get rid of unmanaged resources
+			{
+				CloseHandle(m_hHandle);
+			}
+		}
 		#endregion
 	}
 }
