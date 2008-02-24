@@ -36,15 +36,15 @@ using LightStone4net.Core.Data;
 
 namespace LightStone4net.WinUI
 {
-	public partial class HrvSdnnPlotControl : UserControl
+	public partial class RRPlotControl : UserControl
 	{
 		private static readonly TimeSpan c_MaxAllowedTimeSpan = TimeSpan.FromMinutes(30);
 		private TimeSpan m_DisplayPeriod;
-		private ITimeSpanBuffer<double> m_PointBuffer;
+		private ITimeSpanBuffer<TimeSpan> m_PointBuffer;
 		private LinePlot m_LinePlot;
 		private AutoRange m_YAxisRange = new AutoRange();
 
-		public HrvSdnnPlotControl()
+		public RRPlotControl()
 		{
 			this.DisplayPeriod = TimeSpan.FromMinutes(1);
 			InitializeComponent();
@@ -57,8 +57,8 @@ namespace LightStone4net.WinUI
 				HeartRate heartRate = HeartRate.Instance;
 
 				int initialBufferSize = (int)m_DisplayPeriod.TotalSeconds * 60;
-				m_PointBuffer = TimeSpanBuffer<double>.Synchronized(m_DisplayPeriod, initialBufferSize);
-				HeartRate.Instance.HrvSdnnOutput.Add(m_PointBuffer);
+				m_PointBuffer = TimeSpanBuffer<TimeSpan>.Synchronized(m_DisplayPeriod, initialBufferSize);
+				HeartRate.Instance.RRIntervalOutput.Add(m_PointBuffer);
 
 				m_PlotSurface.Clear();
 
@@ -69,9 +69,9 @@ namespace LightStone4net.WinUI
 				m_PlotSurface.XAxis1 = new DateTimeAxis(m_PlotSurface.XAxis1);
 				m_PlotSurface.XAxis1.NumberFormat = "mm:ss";
 
-				m_PlotSurface.Title = "HRV Over Time";
+				m_PlotSurface.Title = "R-R Interval Over Time";
 				m_PlotSurface.XAxis1.Label = "Time";
-				m_PlotSurface.YAxis1.Label = "HRV";
+				m_PlotSurface.YAxis1.Label = "R-R [msec]";
 
 				RefreshGraph();
 
@@ -101,19 +101,6 @@ namespace LightStone4net.WinUI
 			}
 		}
 
-		public void Reset()
-		{
-			HeartRate.Instance.ResetHrv();
-			lock (m_PointBuffer.SyncObject)
-			{
-				m_PointBuffer.Clear();
-			}
-
-			m_LinePlot.AbscissaData = new double[0];
-			m_LinePlot.OrdinateData = new double[0];
-			m_PlotSurface.Refresh();
-		}
-
 		private void RefreshGraph()
 		{
 			DateTime now = DateTime.Now;
@@ -123,7 +110,7 @@ namespace LightStone4net.WinUI
 
 			double minY = double.MaxValue;
 			double maxY = double.MinValue;
-			
+
 			lock (m_PointBuffer.SyncObject)
 			{
 				if (m_PointBuffer.Count < 3)
@@ -136,10 +123,10 @@ namespace LightStone4net.WinUI
 				yValues = new double[m_PointBuffer.Count];
 
 				int index = 0;
-				foreach (TimeStampedValue<double> timeStampedValue in m_PointBuffer)
+				foreach (TimeStampedValue<TimeSpan> timeStampedValue in m_PointBuffer)
 				{
 					xValues[index] = timeStampedValue.TimeStamp.Ticks;
-					double y = timeStampedValue.Value;
+					double y = timeStampedValue.Value.TotalMilliseconds;
 					yValues[index] = y;
 
 					if (y > maxY)
