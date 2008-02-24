@@ -32,19 +32,18 @@ using LightStone4net.Core;
 using LightStone4net.Core.Utilities;
 using LightStone4net.Core.Filter;
 using LightStone4net.Core.Data;
+using LightStone4net.WinUI.Internal;
 
 namespace LightStone4net.WinUI
 {
-	public partial class HeartSignalPlotControl : UserControl
+	public partial class HeartSignalPlotControl : BasePlotControl
 	{
-		private static readonly TimeSpan c_MaxAllowedTimeSpan = TimeSpan.FromMinutes(30);
-		private TimeSpan m_DisplayPeriod;
 		private ITimeSpanBuffer<double> m_PointBuffer;
 		private LinePlot m_LinePlot;
 
 		public HeartSignalPlotControl()
 		{
-			this.DisplayPeriod = TimeSpan.FromSeconds(10);
+			this.DisplayPeriod = TimeSpan.FromSeconds(5);
 			InitializeComponent();
 		}
 
@@ -57,52 +56,31 @@ namespace LightStone4net.WinUI
 				NormalizerFilter normalizerFilter = new NormalizerFilter(TimeSpan.FromSeconds(1.5));
 				LightStoneDevice.Instance.RawHeartSignalOutput.Add(normalizerFilter);
 
-				int bufferSize = (int)(m_DisplayPeriod.Ticks / LightStoneDevice.SamplingInterval.Ticks);
-				m_PointBuffer = TimeSpanBuffer<double>.Synchronized(m_DisplayPeriod, bufferSize);
+				int bufferSize = (int)(this.DisplayPeriod.Ticks / LightStoneDevice.SamplingInterval.Ticks);
+				m_PointBuffer = TimeSpanBuffer<double>.Synchronized(this.DisplayPeriod, bufferSize);
 				normalizerFilter.Output.Add(m_PointBuffer);
 
-				m_PlotSurface.Clear();
+				base.PlotSurface.Clear();
 
 				m_LinePlot = new LinePlot();
 				m_LinePlot.Pen = new Pen(Color.Red, 2.0f);
-				m_PlotSurface.Add(m_LinePlot);
+				base.PlotSurface.Add(m_LinePlot);
 
-				m_PlotSurface.XAxis1 = new DateTimeAxis(m_PlotSurface.XAxis1);
-				m_PlotSurface.XAxis1.NumberFormat = "mm:ss";
+				base.PlotSurface.XAxis1 = new DateTimeAxis(base.PlotSurface.XAxis1);
+				base.PlotSurface.XAxis1.NumberFormat = "mm:ss";
 
-				m_PlotSurface.Title = "Normalized Heart Signal";
-				m_PlotSurface.XAxis1.Label = "Time";
-				m_PlotSurface.YAxis1.Label = "Magnitude";
+				base.PlotSurface.Title = "Normalized Heart Signal";
+				base.PlotSurface.XAxis1.Label = "Time";
+				base.PlotSurface.YAxis1.Label = "Magnitude";
 
 				RefreshGraph();
 
-				m_Timer.Interval = 100;
-				m_Timer.Enabled = true;
+				base.StartTimer(100);
 			}
 			base.OnCreateControl();
 		}
 
-		public TimeSpan DisplayPeriod
-		{
-			get
-			{
-				return m_DisplayPeriod;
-			}
-			private set
-			{
-				if (value.Ticks <= 0)
-				{
-					throw new ArgumentException("The display period must be greater than zero.");
-				}
-				if (value.Ticks > c_MaxAllowedTimeSpan.Ticks)
-				{
-					throw new ArgumentException("The display period must be greater than " + c_MaxAllowedTimeSpan.ToString());
-				}
-				m_DisplayPeriod = value;
-			}
-		}
-
-		private void RefreshGraph()
+		protected override void RefreshGraph()
 		{
 			DateTime now = DateTime.Now;
 
@@ -125,18 +103,13 @@ namespace LightStone4net.WinUI
 			m_LinePlot.AbscissaData = xValues;
 			m_LinePlot.OrdinateData = yValues;
 
-			m_PlotSurface.XAxis1.WorldMin = now.Ticks - m_DisplayPeriod.Ticks;
-			m_PlotSurface.XAxis1.WorldMax = now.Ticks;
+			base.PlotSurface.XAxis1.WorldMin = now.Ticks - this.DisplayPeriod.Ticks;
+			base.PlotSurface.XAxis1.WorldMax = now.Ticks;
 
-			m_PlotSurface.YAxis1.WorldMin = 0;
-			m_PlotSurface.YAxis1.WorldMax = 1;
+			base.PlotSurface.YAxis1.WorldMin = 0;
+			base.PlotSurface.YAxis1.WorldMax = 1;
 
-			m_PlotSurface.Refresh();
-		}
-
-		private void OnTimerTick(object sender, EventArgs e)
-		{
-			RefreshGraph();
+			base.PlotSurface.Refresh();
 		}
 	}
 }
