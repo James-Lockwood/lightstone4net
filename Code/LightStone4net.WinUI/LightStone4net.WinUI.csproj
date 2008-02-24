@@ -60,6 +60,12 @@
     <Compile Include="HrvSdnnPlotControl.Designer.cs">
       <DependentUpon>HrvSdnnPlotControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Internal\BasePlotControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Internal\BasePlotControl.Designer.cs">
+      <DependentUpon>BasePlotControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="LightStoneUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RRPlotControl.cs">
@@ -88,6 +94,10 @@
     <EmbeddedResource Include="HrvSdnnPlotControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>HrvSdnnPlotControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Internal\BasePlotControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BasePlotControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RRPlotControl.resx">
       <SubType>Designer</SubType>

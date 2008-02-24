@@ -33,13 +33,12 @@ using LightStone4net.Core;
 using LightStone4net.Core.Utilities;
 using LightStone4net.Core.Filter;
 using LightStone4net.Core.Data;
+using LightStone4net.WinUI.Internal;
 
 namespace LightStone4net.WinUI
 {
-	public partial class RRPlotControl : UserControl
+	public partial class RRPlotControl : BasePlotControl
 	{
-		private static readonly TimeSpan c_MaxAllowedTimeSpan = TimeSpan.FromMinutes(30);
-		private TimeSpan m_DisplayPeriod;
 		private ITimeSpanBuffer<TimeSpan> m_PointBuffer;
 		private LinePlot m_LinePlot;
 		private AutoRange m_YAxisRange = new AutoRange();
@@ -56,52 +55,31 @@ namespace LightStone4net.WinUI
 			{
 				HeartRate heartRate = HeartRate.Instance;
 
-				int initialBufferSize = (int)m_DisplayPeriod.TotalSeconds * 60;
-				m_PointBuffer = TimeSpanBuffer<TimeSpan>.Synchronized(m_DisplayPeriod, initialBufferSize);
+				int initialBufferSize = (int)base.DisplayPeriod.TotalSeconds * 60;
+				m_PointBuffer = TimeSpanBuffer<TimeSpan>.Synchronized(base.DisplayPeriod, initialBufferSize);
 				HeartRate.Instance.RRIntervalOutput.Add(m_PointBuffer);
 
-				m_PlotSurface.Clear();
+				base.PlotSurface.Clear();
 
 				m_LinePlot = new LinePlot();
 				m_LinePlot.Pen = new Pen(Color.Red, 2.0f);
-				m_PlotSurface.Add(m_LinePlot);
+				base.PlotSurface.Add(m_LinePlot);
 
-				m_PlotSurface.XAxis1 = new DateTimeAxis(m_PlotSurface.XAxis1);
-				m_PlotSurface.XAxis1.NumberFormat = "mm:ss";
+				base.PlotSurface.XAxis1 = new DateTimeAxis(base.PlotSurface.XAxis1);
+				base.PlotSurface.XAxis1.NumberFormat = "mm:ss";
 
-				m_PlotSurface.Title = "R-R Interval Over Time";
-				m_PlotSurface.XAxis1.Label = "Time";
-				m_PlotSurface.YAxis1.Label = "R-R [msec]";
+				base.PlotSurface.Title = "R-R Interval Over Time";
+				base.PlotSurface.XAxis1.Label = "Time";
+				base.PlotSurface.YAxis1.Label = "R-R [msec]";
 
 				RefreshGraph();
 
-				m_Timer.Interval = 200;
-				m_Timer.Enabled = true;
+				base.StartTimer(200);
 			}
 			base.OnCreateControl();
 		}
 
-		public TimeSpan DisplayPeriod
-		{
-			get
-			{
-				return m_DisplayPeriod;
-			}
-			private set
-			{
-				if (value.Ticks <= 0)
-				{
-					throw new ArgumentException("The display period must be greater than zero.");
-				}
-				if (value.Ticks > c_MaxAllowedTimeSpan.Ticks)
-				{
-					throw new ArgumentException("The display period must be greater than " + c_MaxAllowedTimeSpan.ToString());
-				}
-				m_DisplayPeriod = value;
-			}
-		}
-
-		private void RefreshGraph()
+		protected override void RefreshGraph()
 		{
 			DateTime now = DateTime.Now;
 
@@ -147,13 +125,13 @@ namespace LightStone4net.WinUI
 			m_LinePlot.AbscissaData = xValues;
 			m_LinePlot.OrdinateData = yValues;
 
-			m_PlotSurface.XAxis1.WorldMin = now.Ticks - m_DisplayPeriod.Ticks;
-			m_PlotSurface.XAxis1.WorldMax = now.Ticks;
+			base.PlotSurface.XAxis1.WorldMin = now.Ticks - base.DisplayPeriod.Ticks;
+			base.PlotSurface.XAxis1.WorldMax = now.Ticks;
 
-			m_PlotSurface.YAxis1.WorldMin = m_YAxisRange.Min;
-			m_PlotSurface.YAxis1.WorldMax = m_YAxisRange.Max;
+			base.PlotSurface.YAxis1.WorldMin = m_YAxisRange.Min;
+			base.PlotSurface.YAxis1.WorldMax = m_YAxisRange.Max;
 
-			m_PlotSurface.Refresh();
+			base.PlotSurface.Refresh();
 		}
 
 		private void OnTimerTick(object sender, EventArgs e)
