@@ -41,6 +41,7 @@
     <Compile Include="HidDevice.cs" />
     <Compile Include="HidDeviceCreatorDelegate.cs" />
     <Compile Include="HidDeviceException.cs" />
+    <Compile Include="IDataReceiver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report.cs" />
     <Compile Include="Win32USB.cs" />

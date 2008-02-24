@@ -30,9 +30,25 @@ using LightStone4net.Core.Data;
 
 namespace LightStone4net.Core
 {
-	public class LightStoneDevice : HidDevice
+	public class LightStoneDevice : IDisposable
 	{
 		private static LightStoneDevice s_LightStoneDevice = null;
+
+		public static void Initialize()
+		{
+			try
+			{
+				LightStoneDevice lightStoneDevice = Instance;
+				if (lightStoneDevice == null)
+				{
+					throw new LightStoneNotFoundException();
+				}
+			}
+			catch(HidDeviceException)
+			{
+				throw new LightStoneInUseException();
+			}
+		}
 
 		public static LightStoneDevice Instance
 		{
@@ -64,21 +80,19 @@ namespace LightStone4net.Core
 				new DeviceIdInfo(0x14FA, 0x0001),
 			};
 
-			LightStoneDevice lightStoneDevice = null;
 			foreach (DeviceIdInfo deviceIdInfo in deviceIdInfos)
 			{
-				lightStoneDevice = (LightStoneDevice)FindDevice(
+				HidDevice hidDevice = HidDevice.FindDevice(
 					deviceIdInfo.VendorId,
-					deviceIdInfo.ProductId,
-					delegate(string devicePath) { return new LightStoneDevice(devicePath); }
+					deviceIdInfo.ProductId
 				);
 
-				if (lightStoneDevice != null)
+				if (hidDevice != null)
 				{
-					break;
+					return new LightStoneDevice(hidDevice);
 				}
 			}
-			return lightStoneDevice;
+			return null;
 		}
 
 		private struct DeviceIdInfo
@@ -95,26 +109,19 @@ namespace LightStone4net.Core
 
 		public static readonly TimeSpan SamplingInterval = TimeSpan.FromMilliseconds(32); // interval between samples taken by lighstone
 
+		private HidDevice m_HidDevice;
 		private SampleExtractor m_SampleExtractor;
 		private DateTime m_StartTime;
 
-		private LightStoneDevice(string devicePath)
-			: base(devicePath)
+		private LightStoneDevice(HidDevice hidDevice)
 		{
+			m_HidDevice = hidDevice;
 			m_SampleExtractor = new SampleExtractor(this);
 			m_StartTime = DateTime.Now;
-			base.Start();
+			hidDevice.Start(m_SampleExtractor);
 		}
 
 		public event EventHandler<SampleEventArgs> NewSample;
-
-		protected override void OnDataReceived(byte[] data)
-		{
-			if (data != null)
-			{
-				m_SampleExtractor.HandleNewData(data);
-			}
-		}
 
 		protected internal virtual void OnNewSample(Sample newSample)
 		{
@@ -158,38 +165,11 @@ namespace LightStone4net.Core
 			}
 		}
 
-	
-		/// <summary>
-		/// Virtual method to create an input report for this device. Override to use.
-		/// </summary>
-		/// <returns>A shiny new input report</returns>
-		public override InputReport CreateInputReport()
-		{
-			throw new NotImplementedException();
-		}
+		#region IDisposable Members
 
-		/// <summary>
-		/// Fired when data has been received over USB
-		/// </summary>
-		/// <param name="inputReport">Input report received</param>
-		protected override void HandleDataReceived(InputReport inputReport)
+		public void Dispose()
 		{
-			Debug.WriteLine("inputReport received.");
-		}
-
-		#region Dispose
-
-		/// <summary>
-		/// Dispose.
-		/// </summary>
-		/// <param name="disposing">True if object is being disposed - else is being finalised</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				// just a place holder for now
-			}
-			base.Dispose(disposing);
+			m_HidDevice.Dispose();
 		}
 
 		#endregion

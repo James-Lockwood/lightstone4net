@@ -60,6 +60,7 @@
     <Compile Include="HrvSdnnPlotControl.Designer.cs">
       <DependentUpon>HrvSdnnPlotControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LightStoneUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RRPlotControl.cs">
       <SubType>UserControl</SubType>
