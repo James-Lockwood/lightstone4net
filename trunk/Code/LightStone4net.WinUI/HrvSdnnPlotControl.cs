@@ -32,6 +32,7 @@ using LightStone4net.Core;
 using LightStone4net.Core.Utilities;
 using LightStone4net.Core.Filter;
 using LightStone4net.Core.Data;
+using System.Diagnostics;
 
 namespace LightStone4net.WinUI
 {
@@ -42,9 +43,55 @@ namespace LightStone4net.WinUI
 		private ITimeSpanBuffer<double> m_PointBuffer;
 		private LinePlot m_LinePlot;
 
+		private class Range
+		{
+			private const double c_MinDelta = 0.00001;
+
+			private double m_Min;
+			private double m_Max;
+
+			public Range(double min, double max)
+			{
+				Update(min, max);
+			}
+
+			internal void Update(double min, double max)
+			{
+				Debug.Assert(max >= min);
+
+				if (max == min)
+				{
+					m_Min = min - c_MinDelta;
+					m_Max = max + c_MinDelta;
+				}
+				else
+				{
+					m_Min = min;
+					m_Max = max;
+				}
+			}
+
+			public double Min
+			{
+				get { return m_Min; }
+			}
+
+			public double Max
+			{
+				get { return m_Max; }
+			}
+
+			public double Delta
+			{
+				get { return m_Max - m_Min; }
+			}
+		}
+
+		private Range m_YAxisRange = null;
+
 		public HrvSdnnPlotControl()
 		{
-			this.DisplayPeriod = TimeSpan.FromSeconds(10);
+			this.DisplayPeriod = TimeSpan.FromMinutes(1);
 			InitializeComponent();
 		}
 
@@ -54,7 +101,7 @@ namespace LightStone4net.WinUI
 			{
 				HeartRate heartRate = HeartRate.Instance;
 
-				int initialBufferSize = m_DisplayPeriod.Seconds * 60;
+				int initialBufferSize = (int)m_DisplayPeriod.TotalSeconds * 60;
 				m_PointBuffer = TimeSpanBuffer<double>.Synchronized(m_DisplayPeriod, initialBufferSize);
 				HeartRate.Instance.HrvSdnnOutput.Add(m_PointBuffer);
 
@@ -99,14 +146,37 @@ namespace LightStone4net.WinUI
 			}
 		}
 
+		public void Reset()
+		{
+			HeartRate.Instance.ResetHrv();
+			lock (m_PointBuffer.SyncObject)
+			{
+				m_PointBuffer.Clear();
+			}
+
+			m_LinePlot.AbscissaData = new double[0];
+			m_LinePlot.OrdinateData = new double[0];
+			m_PlotSurface.Refresh();
+		}
+
 		private void RefreshGraph()
 		{
 			DateTime now = DateTime.Now;
 
 			double[] xValues;
 			double[] yValues;
+
+			double minY = double.MaxValue;
+			double maxY = double.MinValue;
+			
 			lock (m_PointBuffer.SyncObject)
 			{
+				if (m_PointBuffer.Count < 3)
+				{
+					// not enough data
+					return;
+				}
+
 				xValues = new double[m_PointBuffer.Count];
 				yValues = new double[m_PointBuffer.Count];
 
@@ -114,10 +184,23 @@ namespace LightStone4net.WinUI
 				foreach (TimeStampedValue<double> timeStampedValue in m_PointBuffer)
 				{
 					xValues[index] = timeStampedValue.TimeStamp.Ticks;
-					yValues[index] = timeStampedValue.Value;
+					double y = timeStampedValue.Value;
+					yValues[index] = y;
+
+					if (y > maxY)
+					{
+						maxY = y;
+					}
+					if (y < minY)
+					{
+						minY = y;
+					}
+
 					index++;
 				}
 			}
+
+			AdjustRange(minY, maxY);
 
 			m_LinePlot.AbscissaData = xValues;
 			m_LinePlot.OrdinateData = yValues;
@@ -125,10 +208,61 @@ namespace LightStone4net.WinUI
 			m_PlotSurface.XAxis1.WorldMin = now.Ticks - m_DisplayPeriod.Ticks;
 			m_PlotSurface.XAxis1.WorldMax = now.Ticks;
 
-			m_PlotSurface.YAxis1.WorldMin = 0;
-			m_PlotSurface.YAxis1.WorldMax = 1;
+			m_PlotSurface.YAxis1.WorldMin = m_YAxisRange.Min;
+			m_PlotSurface.YAxis1.WorldMax = m_YAxisRange.Max;
 
 			m_PlotSurface.Refresh();
+		}
+
+		private void AdjustRange(double min, double max)
+		{
+			const double c_IncreaseIfLessThanLeft = 0.01;
+			const double c_DecreaseIfMoreThanLeft = 0.15;
+			const double c_ChangeBy = 0.1;
+
+			if (m_YAxisRange == null)
+			{
+				m_YAxisRange = new Range(min, max);
+			}
+			else
+			{
+				double newMax = m_YAxisRange.Max;
+				double newMin = m_YAxisRange.Min;
+
+				// First we make sure that min and max are not outside the range
+				if (max > newMax)
+				{
+					newMax = max;
+				}
+				if (min < newMin)
+				{
+					newMin = min;
+				}
+
+				double delta = max - min;
+
+				// Second, enlarge if necessary
+				if ((newMax - max) / delta < c_IncreaseIfLessThanLeft)
+				{
+					newMax = max + c_ChangeBy * delta;
+				}
+				if ((min - newMin) / delta < c_IncreaseIfLessThanLeft)
+				{
+					newMin = min - c_ChangeBy * delta;
+				}
+
+				// Third, decrease if necessary
+				if ((newMax - max) / delta > c_DecreaseIfMoreThanLeft)
+				{
+					newMax = max + c_ChangeBy * delta;
+				}
+				if ((min - newMin) / delta > c_IncreaseIfLessThanLeft)
+				{
+					newMin = min - c_ChangeBy * delta;
+				}
+
+				m_YAxisRange.Update(newMin, newMax);
+			}
 		}
 
 		private void OnTimerTick(object sender, EventArgs e)

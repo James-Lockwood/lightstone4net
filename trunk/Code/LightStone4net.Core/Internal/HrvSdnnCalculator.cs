@@ -51,12 +51,17 @@ namespace LightStone4net.Core.Internal
 		private HrvSdnnCalculator()
 		{
 			m_MinSampleCount = 30; // Start calculating the sdnn once we reach this sample count
-			m_MaxSampleCount = 90; // use at most this many samples
+			m_MaxSampleCount = 30; // use at most this many samples
 
-			m_RRIntervalBuffer = new CircularBuffer<TimeSpan>(m_MaxSampleCount);
+			m_RRIntervalBuffer = CircularBuffer<TimeSpan>.Synchronized(m_MaxSampleCount);
 			m_Output = new Output<TimeStampedValue<double>>();
 
 			HeartPeakDetector.Instance.RRIntervalOutput.Add(this);
+		}
+
+		internal void Reset()
+		{
+			m_RRIntervalBuffer.Clear();
 		}
 
 		#region ISink<TimeStampedValue<TimeSpan>> Members
