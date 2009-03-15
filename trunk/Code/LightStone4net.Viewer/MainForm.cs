@@ -49,6 +49,26 @@ namespace LightStone4net.Viewer
 			base.OnCreateControl();
 		}
 
+		private const int WM_SYSCOMMAND = 0x0112, SC_SCREENSAVE = 0xF140, SC_MONITORPOWER = 0xF170;
+
+		protected override void WndProc(ref Message m)
+		{
+			// Prevent screensaver from kicking in
+			if (m.Msg == WM_SYSCOMMAND) //Intercept System Command
+			{
+				if (m.WParam.ToInt32() == SC_SCREENSAVE || m.WParam.ToInt32() == SC_MONITORPOWER)
+				{
+					// Intercept ScreenSaver and Monitor Power Messages
+					// Prior to activating the screen saver, Windows send this message with the wParam
+					// set to SC_SCREENSAVE to all top-level windows. If you set the return value of the
+					// message to a non-zero value the screen saver will not start.
+					m.Msg = 1;
+					return;
+				}
+			}
+			base.WndProc(ref m);
+		}
+
 		private void OnBeepCheckBoxCheckedChanged(object sender, EventArgs e)
 		{
 			HeartRate.Instance.BeepEnabled = m_BeepCheckBox.Checked;
