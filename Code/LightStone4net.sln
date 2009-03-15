@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightStone4net.Core", "LightStone4net.Core\LightStone4net.Core.csproj", "{CFF621E1-1FF0-4194-A048-53B2C5D3B2C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsbLib", "UsbLib\UsbLib.csproj", "{EF317BAE-DF96-4009-8546-6EF0F10BFE1C}"

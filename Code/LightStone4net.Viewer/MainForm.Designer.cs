@@ -29,15 +29,15 @@ namespace LightStone4net.Viewer
 		private void InitializeComponent()
 		{
 			this.m_MainSplitContainer = new System.Windows.Forms.SplitContainer();
+			this.m_HeartSignalPlotControl = new LightStone4net.WinUI.HeartSignalPlotControl();
 			this.m_BeatsPerMinPanel = new System.Windows.Forms.Panel();
 			this.m_HrvResetButton = new System.Windows.Forms.Button();
 			this.m_BeepCheckBox = new System.Windows.Forms.CheckBox();
+			this.m_HrvSdnnTextBox = new LightStone4net.WinUI.ThreadSafeControls.SafeTextBox();
 			this.label2 = new System.Windows.Forms.Label();
+			this.m_BeatsPerMinTextBox = new LightStone4net.WinUI.ThreadSafeControls.SafeTextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.m_PlotsSplitContainer = new System.Windows.Forms.SplitContainer();
-			this.m_HeartSignalPlotControl = new LightStone4net.WinUI.HeartSignalPlotControl();
-			this.m_HrvSdnnTextBox = new LightStone4net.WinUI.ThreadSafeControls.SafeTextBox();
-			this.m_BeatsPerMinTextBox = new LightStone4net.WinUI.ThreadSafeControls.SafeTextBox();
 			this.m_RRPlotControl = new LightStone4net.WinUI.RRPlotControl();
 			this.m_HrvSdnnPlotControl = new LightStone4net.WinUI.HrvSdnnPlotControl();
 			this.m_MainSplitContainer.Panel1.SuspendLayout();
@@ -64,9 +64,17 @@ namespace LightStone4net.Viewer
 			// m_MainSplitContainer.Panel2
 			// 
 			this.m_MainSplitContainer.Panel2.Controls.Add(this.m_PlotsSplitContainer);
-			this.m_MainSplitContainer.Size = new System.Drawing.Size(573, 396);
-			this.m_MainSplitContainer.SplitterDistance = 120;
+			this.m_MainSplitContainer.Size = new System.Drawing.Size(607, 450);
+			this.m_MainSplitContainer.SplitterDistance = 136;
 			this.m_MainSplitContainer.TabIndex = 0;
+			// 
+			// m_HeartSignalPlotControl
+			// 
+			this.m_HeartSignalPlotControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_HeartSignalPlotControl.Location = new System.Drawing.Point(256, 0);
+			this.m_HeartSignalPlotControl.Name = "m_HeartSignalPlotControl";
+			this.m_HeartSignalPlotControl.Size = new System.Drawing.Size(351, 136);
+			this.m_HeartSignalPlotControl.TabIndex = 1;
 			// 
 			// m_BeatsPerMinPanel
 			// 
@@ -79,7 +87,7 @@ namespace LightStone4net.Viewer
 			this.m_BeatsPerMinPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.m_BeatsPerMinPanel.Location = new System.Drawing.Point(0, 0);
 			this.m_BeatsPerMinPanel.Name = "m_BeatsPerMinPanel";
-			this.m_BeatsPerMinPanel.Size = new System.Drawing.Size(256, 120);
+			this.m_BeatsPerMinPanel.Size = new System.Drawing.Size(256, 136);
 			this.m_BeatsPerMinPanel.TabIndex = 0;
 			// 
 			// m_HrvResetButton
@@ -103,6 +111,14 @@ namespace LightStone4net.Viewer
 			this.m_BeepCheckBox.UseVisualStyleBackColor = true;
 			this.m_BeepCheckBox.CheckedChanged += new System.EventHandler(this.OnBeepCheckBoxCheckedChanged);
 			// 
+			// m_HrvSdnnTextBox
+			// 
+			this.m_HrvSdnnTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.m_HrvSdnnTextBox.Location = new System.Drawing.Point(132, 34);
+			this.m_HrvSdnnTextBox.Name = "m_HrvSdnnTextBox";
+			this.m_HrvSdnnTextBox.Size = new System.Drawing.Size(95, 34);
+			this.m_HrvSdnnTextBox.TabIndex = 3;
+			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
@@ -111,6 +127,14 @@ namespace LightStone4net.Viewer
 			this.label2.Size = new System.Drawing.Size(90, 17);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "HRV (SDNN)";
+			// 
+			// m_BeatsPerMinTextBox
+			// 
+			this.m_BeatsPerMinTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.m_BeatsPerMinTextBox.Location = new System.Drawing.Point(16, 34);
+			this.m_BeatsPerMinTextBox.Name = "m_BeatsPerMinTextBox";
+			this.m_BeatsPerMinTextBox.Size = new System.Drawing.Size(95, 34);
+			this.m_BeatsPerMinTextBox.TabIndex = 1;
 			// 
 			// label1
 			// 
@@ -135,40 +159,16 @@ namespace LightStone4net.Viewer
 			// m_PlotsSplitContainer.Panel2
 			// 
 			this.m_PlotsSplitContainer.Panel2.Controls.Add(this.m_HrvSdnnPlotControl);
-			this.m_PlotsSplitContainer.Size = new System.Drawing.Size(573, 272);
-			this.m_PlotsSplitContainer.SplitterDistance = 136;
+			this.m_PlotsSplitContainer.Size = new System.Drawing.Size(607, 310);
+			this.m_PlotsSplitContainer.SplitterDistance = 155;
 			this.m_PlotsSplitContainer.TabIndex = 1;
-			// 
-			// m_HeartSignalPlotControl
-			// 
-			this.m_HeartSignalPlotControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_HeartSignalPlotControl.Location = new System.Drawing.Point(256, 0);
-			this.m_HeartSignalPlotControl.Name = "m_HeartSignalPlotControl";
-			this.m_HeartSignalPlotControl.Size = new System.Drawing.Size(317, 120);
-			this.m_HeartSignalPlotControl.TabIndex = 1;
-			// 
-			// m_HrvSdnnTextBox
-			// 
-			this.m_HrvSdnnTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.m_HrvSdnnTextBox.Location = new System.Drawing.Point(132, 34);
-			this.m_HrvSdnnTextBox.Name = "m_HrvSdnnTextBox";
-			this.m_HrvSdnnTextBox.Size = new System.Drawing.Size(95, 34);
-			this.m_HrvSdnnTextBox.TabIndex = 3;
-			// 
-			// m_BeatsPerMinTextBox
-			// 
-			this.m_BeatsPerMinTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.m_BeatsPerMinTextBox.Location = new System.Drawing.Point(16, 34);
-			this.m_BeatsPerMinTextBox.Name = "m_BeatsPerMinTextBox";
-			this.m_BeatsPerMinTextBox.Size = new System.Drawing.Size(95, 34);
-			this.m_BeatsPerMinTextBox.TabIndex = 1;
 			// 
 			// m_RRPlotControl
 			// 
 			this.m_RRPlotControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_RRPlotControl.Location = new System.Drawing.Point(0, 0);
 			this.m_RRPlotControl.Name = "m_RRPlotControl";
-			this.m_RRPlotControl.Size = new System.Drawing.Size(573, 136);
+			this.m_RRPlotControl.Size = new System.Drawing.Size(607, 155);
 			this.m_RRPlotControl.TabIndex = 0;
 			// 
 			// m_HrvSdnnPlotControl
@@ -176,14 +176,14 @@ namespace LightStone4net.Viewer
 			this.m_HrvSdnnPlotControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_HrvSdnnPlotControl.Location = new System.Drawing.Point(0, 0);
 			this.m_HrvSdnnPlotControl.Name = "m_HrvSdnnPlotControl";
-			this.m_HrvSdnnPlotControl.Size = new System.Drawing.Size(573, 132);
+			this.m_HrvSdnnPlotControl.Size = new System.Drawing.Size(607, 151);
 			this.m_HrvSdnnPlotControl.TabIndex = 1;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(573, 396);
+			this.ClientSize = new System.Drawing.Size(607, 450);
 			this.Controls.Add(this.m_MainSplitContainer);
 			this.Name = "MainForm";
 			this.Text = "Heart Monitor";
